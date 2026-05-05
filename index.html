@@ -34,52 +34,71 @@
   body { font-family: 'DM Sans', sans-serif; background: #F0F4F8; color: var(--gray-900); min-height: 100vh; }
 
   /* Header */
-  .site-header { background: var(--navy); padding: 0 2rem; position: sticky; top: 0; z-index: 100; }
+  .site-header { background: var(--navy); padding: 0 1.25rem; position: sticky; top: 0; z-index: 100; }
   .site-header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; height: 64px; gap: 16px; }
-  .site-logo { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
-  .site-logo-mark { width: 36px; height: 36px; background: rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .site-logo { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; flex-shrink: 0; }
+  .site-logo-mark { width: 36px; height: 36px; background: rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .site-logo-mark svg { width: 20px; height: 20px; fill: #fff; }
   .site-logo-text { font-size: 15px; font-weight: 500; letter-spacing: -0.2px; }
   .site-logo-text span { font-weight: 300; opacity: 0.7; }
   .header-nav { margin-left: auto; display: flex; gap: 8px; align-items: center; }
   .header-nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; padding: 6px 12px; border-radius: 6px; transition: all 0.15s; }
   .header-nav a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  @media(max-width:520px){
+    .header-nav { display: none; }
+    .site-logo-text span { display: none; }
+    .site-logo-text { font-size: 14px; }
+  }
 
   /* Hero */
-  .hero { background: linear-gradient(135deg, var(--navy) 0%, #1e4fa0 100%); padding: 3rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+  .hero { background: linear-gradient(135deg, var(--navy) 0%, #1e4fa0 100%); padding: 3rem 1.25rem 4rem; text-align: center; position: relative; overflow: hidden; }
   .hero::before { content: ''; position: absolute; top: -60px; right: -80px; width: 300px; height: 300px; background: rgba(255,255,255,0.04); border-radius: 50%; }
   .hero::after { content: ''; position: absolute; bottom: -80px; left: -60px; width: 250px; height: 250px; background: rgba(255,255,255,0.03); border-radius: 50%; }
   .hero h1 { font-family: 'DM Serif Display', serif; font-size: 2.4rem; color: #fff; margin-bottom: 10px; position: relative; }
   .hero p { font-size: 16px; color: rgba(255,255,255,0.75); max-width: 480px; margin: 0 auto; position: relative; }
+  @media(max-width:520px){
+    .hero { padding: 2rem 1rem 3rem; }
+    .hero h1 { font-size: 1.7rem; }
+    .hero p { font-size: 14px; }
+  }
 
   /* Main container */
-  .main { max-width: 860px; margin: -2rem auto 3rem; padding: 0 1.5rem; position: relative; z-index: 10; }
+  .main { max-width: 860px; margin: -2rem auto 3rem; padding: 0 1rem; position: relative; z-index: 10; }
+  @media(max-width:520px){ .main { padding: 0 0.75rem; margin-bottom: 1.5rem; } }
 
   /* App card */
   .app-card { background: #fff; border-radius: 16px; box-shadow: var(--shadow-lg); overflow: hidden; }
 
   /* Step bar */
-  .step-bar { background: var(--gray-50); border-bottom: 1px solid var(--gray-200); padding: 1.25rem 2rem; }
+  .step-bar { background: var(--gray-50); border-bottom: 1px solid var(--gray-200); padding: 1.25rem 1.25rem; }
   .steps { display: flex; align-items: center; max-width: 600px; margin: 0 auto; }
-  .step { display: flex; align-items: center; gap: 8px; flex: 1; }
+  .step { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
   .step-circle { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; transition: all 0.3s; }
   .step-circle.done { background: var(--green); color: #fff; }
   .step-circle.active { background: var(--navy); color: #fff; box-shadow: 0 0 0 4px var(--navy-light); }
   .step-circle.pending { background: var(--gray-200); color: var(--gray-500); }
-  .step-text { font-size: 12px; font-weight: 500; color: var(--gray-500); transition: color 0.2s; }
+  .step-text { font-size: 12px; font-weight: 500; color: var(--gray-500); transition: color 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .step-text.active { color: var(--navy); }
-  .step-connector { flex: 1; height: 2px; background: var(--gray-200); margin: 0 6px; transition: background 0.3s; }
+  .step-connector { flex: 1; height: 2px; background: var(--gray-200); margin: 0 6px; transition: background 0.3s; flex-shrink: 1; min-width: 8px; }
   .step-connector.done { background: var(--green); }
+  @media(max-width:400px){
+    .step-bar { padding: 1rem 0.75rem; }
+    .step-circle { width: 28px; height: 28px; font-size: 11px; }
+    .step-text { font-size: 10px; }
+    .step-connector { margin: 0 3px; }
+  }
 
   /* Panel */
-  .panel { display: none; padding: 2rem; animation: slideIn 0.25s ease; }
+  .panel { display: none; padding: 1.5rem; animation: slideIn 0.25s ease; }
   .panel.active { display: block; }
+  @media(max-width:520px){ .panel { padding: 1rem; } }
   @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   .panel-title { font-size: 14px; color: var(--gray-500); font-weight: 500; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.5px; }
 
   /* Services */
   .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   @media(max-width:620px){.services-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:360px){.services-grid{grid-template-columns:1fr;}}
   .service-card { border: 1.5px solid var(--gray-200); border-radius: var(--radius); padding: 1rem; cursor: pointer; transition: all 0.15s; background: #fff; }
   .service-card:hover { border-color: var(--blue); background: var(--blue-light); transform: translateY(-1px); }
   .service-card.selected { border-color: var(--navy); background: var(--navy-light); box-shadow: 0 0 0 3px rgba(26,58,107,0.12); }
@@ -90,8 +109,9 @@
 
   /* Calendar */
   .cal-section { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  @media(max-width:580px){.cal-section{grid-template-columns:1fr;}}
+  @media(max-width:580px){.cal-section{grid-template-columns:1fr; gap: 1rem;}}
   .cal-card, .slots-card { border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 1.25rem; }
+  @media(max-width:380px){ .cal-card, .slots-card { padding: 1rem 0.75rem; } }
   .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
   .cal-month { font-size: 15px; font-weight: 600; }
   .cal-nav-btn { width: 30px; height: 30px; border: 1px solid var(--gray-200); background: #fff; border-radius: 8px; cursor: pointer; font-size: 15px; color: var(--gray-500); display: flex; align-items: center; justify-content: center; transition: all 0.1s; }
@@ -133,60 +153,66 @@
   .sum-card { border: 1px solid var(--gray-200); border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem; }
   .sum-head { background: var(--navy); color: #fff; padding: 14px 18px; font-size: 14px; font-weight: 600; }
   .sum-rows { padding: 0 18px; }
-  .sum-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--gray-100); font-size: 13px; }
+  .sum-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--gray-100); font-size: 13px; gap: 10px; }
   .sum-row:last-child { border-bottom: none; }
-  .sum-label { color: var(--gray-500); }
-  .sum-val { font-weight: 500; color: var(--gray-900); text-align: right; max-width: 55%; }
+  .sum-label { color: var(--gray-500); flex-shrink: 0; }
+  .sum-val { font-weight: 500; color: var(--gray-900); text-align: right; word-break: break-word; }
   .location-box { background: var(--amber-light); border: 1px solid #FCD34D; border-radius: 10px; padding: 14px 16px; display: flex; gap: 12px; margin-bottom: 1rem; }
   .location-box p { font-size: 13px; color: #92400E; line-height: 1.5; }
   .location-box strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 3px; }
 
   /* Actions */
-  .actions { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-top: 1px solid var(--gray-100); background: var(--gray-50); }
-  .btn-back { background: #fff; border: 1.5px solid var(--gray-200); color: var(--gray-700); padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+  .actions { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; border-top: 1px solid var(--gray-100); background: var(--gray-50); }
+  @media(max-width:520px){ .actions { padding: 1rem; gap: 10px; } }
+  .btn-back { background: #fff; border: 1.5px solid var(--gray-200); color: var(--gray-700); padding: 11px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; min-height: 44px; }
   .btn-back:hover { border-color: var(--gray-300); background: var(--gray-50); }
-  .btn-next { background: var(--navy); color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+  .btn-next { background: var(--navy); color: #fff; border: none; padding: 11px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; min-height: 44px; }
   .btn-next:hover:not(:disabled) { background: var(--navy-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,58,107,0.3); }
   .btn-next:disabled { background: var(--gray-300); cursor: default; transform: none; box-shadow: none; }
+  @media(max-width:380px){
+    .btn-back, .btn-next { font-size: 13px; padding: 11px 14px; }
+  }
 
   /* Email modal overlay */
-  .email-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+  .email-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; align-items: center; justify-content: center; padding: 0.75rem; }
   .email-overlay.show { display: flex; }
-  .email-modal { background: #fff; border-radius: 16px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.25); animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+  .email-modal { background: #fff; border-radius: 16px; width: 100%; max-width: 540px; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.25); animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
   @keyframes popIn { from { opacity:0; transform:scale(0.9) translateY(10px); } to { opacity:1; transform:scale(1) translateY(0); } }
   .email-chrome { background: #F3F4F6; border-radius: 16px 16px 0 0; padding: 12px 16px; border-bottom: 1px solid #E5E7EB; }
   .email-chrome-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
   .chrome-dot { width: 10px; height: 10px; border-radius: 50%; }
   .email-meta { background: #fff; border-radius: 8px; padding: 10px 12px; font-size: 12px; }
-  .email-meta-row { display: flex; gap: 6px; padding: 2px 0; }
+  .email-meta-row { display: flex; gap: 6px; padding: 2px 0; flex-wrap: wrap; }
   .email-meta-label { color: var(--gray-400); font-weight: 600; min-width: 28px; }
-  .email-meta-val { color: var(--gray-700); }
+  .email-meta-val { color: var(--gray-700); word-break: break-all; }
   .email-body { padding: 0; }
-  .email-header-band { background: var(--navy); padding: 2rem; text-align: center; }
+  .email-header-band { background: var(--navy); padding: 1.5rem; text-align: center; }
   .email-header-band img { width: 44px; height: 44px; }
   .email-header-band h2 { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; margin-top: 12px; }
   .email-header-band p { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
-  .email-content { padding: 1.5rem 2rem; }
+  .email-content { padding: 1.25rem 1.5rem; }
+  @media(max-width:480px){ .email-content { padding: 1rem; } }
   .email-greeting { font-size: 15px; color: var(--gray-700); margin-bottom: 1rem; line-height: 1.6; }
   .email-cita-box { background: var(--navy-light); border: 2px solid var(--navy); border-radius: 12px; padding: 1.25rem; margin: 1.25rem 0; }
   .email-cita-box h3 { font-size: 13px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
-  .email-cita-row { display: flex; gap: 8px; align-items: flex-start; padding: 5px 0; font-size: 13px; }
+  .email-cita-row { display: flex; gap: 8px; align-items: flex-start; padding: 5px 0; font-size: 13px; flex-wrap: wrap; }
   .email-cita-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
   .email-cita-label { color: var(--gray-500); min-width: 70px; font-size: 12px; }
-  .email-cita-val { color: var(--gray-900); font-weight: 600; }
+  .email-cita-val { color: var(--gray-900); font-weight: 600; word-break: break-word; }
   .folio-big { background: var(--navy); color: #fff; border-radius: 8px; padding: 10px 16px; text-align: center; margin: 1rem 0; font-size: 18px; font-weight: 700; letter-spacing: 2px; }
   .folio-big span { display: block; font-size: 10px; font-weight: 400; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
   .qr-placeholder { width: 100px; height: 100px; border: 2px dashed var(--gray-300); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 1rem auto; font-size: 10px; color: var(--gray-400); text-align: center; }
   .docs-list { background: var(--amber-light); border-radius: 10px; padding: 1rem 1.25rem; margin: 1rem 0; }
   .docs-list h4 { font-size: 13px; font-weight: 700; color: #92400E; margin-bottom: 8px; }
   .docs-list li { font-size: 13px; color: #78350F; margin-left: 1rem; padding: 2px 0; }
-  .email-footer { background: var(--gray-50); padding: 1.25rem 2rem; border-top: 1px solid var(--gray-200); text-align: center; }
+  .email-footer { background: var(--gray-50); padding: 1.25rem 1.5rem; border-top: 1px solid var(--gray-200); text-align: center; }
   .email-footer p { font-size: 11px; color: var(--gray-400); line-height: 1.6; }
-  .email-close-btn { display: block; background: var(--navy); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; margin: 1rem auto 0; transition: all 0.15s; }
+  .email-close-btn { display: block; background: var(--navy); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; margin: 1rem auto 0; transition: all 0.15s; min-height: 44px; }
   .email-close-btn:hover { background: var(--navy-dark); }
 
   /* Confirmation screen */
-  .confirm-screen { padding: 3rem 2rem; text-align: center; }
+  .confirm-screen { padding: 2.5rem 1.5rem; text-align: center; }
+  @media(max-width:520px){ .confirm-screen { padding: 1.5rem 1rem; } }
   .check-anim { width: 72px; height: 72px; background: var(--green-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
   @keyframes pop { from{transform:scale(0);}to{transform:scale(1);} }
   .check-anim svg { width: 36px; height: 36px; stroke: var(--green); fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
@@ -247,7 +273,7 @@
     <div class="panel active" id="p1">
       <p class="panel-title">Selecciona el trámite</p>
       <div class="services-grid">
-        <div class="service-card" onclick="selSvc(this,'Acta de Nacimiento','📄','20 min',['Identificación oficial','CURP','Comprobante de domicilio'])">
+        <div class="service-card" onclick="selSvc(this,'Acta de Nacimiento','📄','20 min',['Identificación oficial','CI','Comprobante de domicilio'])">
           <span class="svc-icon">📄</span>
           <div class="svc-name">Acta de nacimiento</div>
           <div class="svc-desc">Registro o copia certificada</div>
@@ -259,16 +285,16 @@
           <div class="svc-desc">Registro civil y copia certificada</div>
           <div class="svc-time">⏱ 30 min</div>
         </div>
-        <div class="service-card" onclick="selSvc(this,'Acta de Defunción','📋','25 min',['Certificado médico','ID del declarante','CURP del fallecido'])">
+        <div class="service-card" onclick="selSvc(this,'Acta de Defunción','📋','25 min',['Certificado médico','ID del declarante','CI del fallecido'])">
           <span class="svc-icon">📋</span>
           <div class="svc-name">Acta de defunción</div>
           <div class="svc-desc">Registro y tramitación</div>
           <div class="svc-time">⏱ 25 min</div>
         </div>
-        <div class="service-card" onclick="selSvc(this,'CURP','🪪','15 min',['Acta de nacimiento','Identificación oficial'])">
+        <div class="service-card" onclick="selSvc(this,'CI','🪪','15 min',['Acta de nacimiento','Identificación oficial'])">
           <span class="svc-icon">🪪</span>
-          <div class="svc-name">CURP</div>
-          <div class="svc-desc">Trámite y corrección de CURP</div>
+          <div class="svc-name">CI</div>
+          <div class="svc-desc">Trámite y corrección de CI</div>
           <div class="svc-time">⏱ 15 min</div>
         </div>
         <div class="service-card" onclick="selSvc(this,'Reconocimiento de Hijo','👨‍👧','30 min',['IDs de ambos padres','Acta de nacimiento del menor'])">
@@ -320,7 +346,7 @@
         <div class="fgroup"><label>Nombre(s) <span class="req">*</span></label><input id="fN" type="text" placeholder="María Fernanda" oninput="chkForm()"></div>
         <div class="fgroup"><label>Primer apellido <span class="req">*</span></label><input id="fA1" type="text" placeholder="García" oninput="chkForm()"></div>
         <div class="fgroup"><label>Segundo apellido</label><input id="fA2" type="text" placeholder="Martínez"></div>
-        <div class="fgroup"><label>CI <span class="req">*</span></label><input id="fC" type="text" placeholder="GAEM900101MDFRRR09" maxlength="18" style="text-transform:uppercase" oninput="chkForm()"></div>
+        <div class="fgroup"><label>CI <span class="req">*</span></label><input id="fC" type="text" placeholder="V1234567" maxlength="8" style="text-transform:uppercase" oninput="chkForm()"></div>
         <div class="fgroup"><label>Correo electrónico <span class="req">*</span></label><input id="fE" type="email" placeholder="correo@ejemplo.com" oninput="chkForm()"></div>
         <div class="fgroup"><label>Teléfono celular <span class="req">*</span></label><input id="fT" type="tel" placeholder="55 1234 5678" maxlength="10" oninput="chkForm()"></div>
         <div class="fgroup full"><label>Comentarios adicionales</label><textarea id="fCom" placeholder="Información adicional para el oficial del registro civil..."></textarea></div>
@@ -364,7 +390,6 @@
           <div class="sum-row"><span class="sum-label">Trámite</span><span class="sum-val" id="cv1"></span></div>
           <div class="sum-row"><span class="sum-label">Fecha y hora</span><span class="sum-val" id="cv2"></span></div>
           <div class="sum-row"><span class="sum-label">Nombre</span><span class="sum-val" id="cv3"></span></div>
-          <div class="sum-row"><span class="sum-label">CI</span><span class="sum-val" id="cv4"></span></div>
           <div class="sum-row"><span class="sum-label">Oficina</span><span class="sum-val">Módulo Central, Ventanilla B</span></div>
         </div>
         <div class="btn-group">

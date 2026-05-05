@@ -2,404 +2,393 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Verificador de Citas — Registro Civil</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0F172A;
-    --surface: #1E293B;
-    --surface2: #263248;
-    --border: rgba(255,255,255,0.08);
-    --border2: rgba(255,255,255,0.14);
-    --text: #F1F5F9;
-    --text2: #94A3B8;
-    --text3: #64748B;
-    --navy: #1A3A6B;
-    --blue: #3B82F6;
-    --blue-glow: rgba(59,130,246,0.2);
-    --green: #10B981;
-    --green-bg: rgba(16,185,129,0.12);
-    --green-border: rgba(16,185,129,0.3);
-    --red: #EF4444;
-    --red-bg: rgba(239,68,68,0.12);
-    --red-border: rgba(239,68,68,0.3);
-    --amber: #F59E0B;
-    --amber-bg: rgba(245,158,11,0.12);
-    --amber-border: rgba(245,158,11,0.3);
-    --radius: 12px;
+    --navy: #1A3A6B; --navy-dark: #0C2244; --navy-light: #E8EFF8;
+    --blue: #2563EB; --blue-light: #DBEAFE;
+    --green: #059669; --green-light: #D1FAE5;
+    --amber: #D97706; --amber-light: #FEF3C7;
+    --red: #DC2626; --red-light: #FEE2E2;
+    --gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-300:#D1D5DB;
+    --gray-400:#9CA3AF;--gray-500:#6B7280;--gray-700:#374151;--gray-900:#111827;
+    --radius:12px;
+    --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 16px rgba(0,0,0,0.06);
+    --shadow-lg:0 8px 32px rgba(0,0,0,0.12);
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:#F0F4F8;color:var(--gray-900);min-height:100vh;}
 
-  /* Header */
-  .hdr { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 1.25rem; position: sticky; top: 0; z-index: 50; }
-  .hdr-inner { display: flex; align-items: center; height: 56px; gap: 12px; max-width: 480px; margin: 0 auto; }
-  .hdr-logo { width: 34px; height: 34px; background: var(--blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .hdr-logo svg { width: 18px; height: 18px; fill: #fff; }
-  .hdr-title { flex: 1; }
-  .hdr-title h1 { font-size: 14px; font-weight: 600; }
-  .hdr-title p { font-size: 11px; color: var(--text2); }
-  .hdr-time { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--blue); background: var(--blue-glow); padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(59,130,246,0.25); }
-  .status-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.5} }
+  /* HEADER */
+  .site-header{background:var(--navy);padding:0 1.25rem;position:sticky;top:0;z-index:100;}
+  .site-header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;height:64px;gap:14px;}
+  .site-logo{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;flex-shrink:0;}
+  .site-logo-mark{width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+  .site-logo-mark svg{width:20px;height:20px;fill:#fff;}
+  .site-logo-text{font-size:15px;font-weight:500;letter-spacing:-0.2px;}
+  .site-logo-text span{font-weight:300;opacity:0.7;}
+  .header-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+  .status-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:5px 12px;}
+  .status-dot{width:7px;height:7px;background:#10B981;border-radius:50%;box-shadow:0 0 6px #10B981;animation:blink 2s infinite;flex-shrink:0;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+  .status-pill span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500;}
+  .clock-badge{font-family:'DM Mono',monospace;font-size:13px;color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:5px 11px;border-radius:8px;letter-spacing:0.5px;}
+  @media(max-width:520px){
+    .site-logo-text span{display:none;}
+    .status-pill span{display:none;}
+    .clock-badge{font-size:12px;padding:4px 8px;}
+  }
 
-  .main { max-width: 480px; margin: 0 auto; padding: 1.25rem; }
+  /* HERO */
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,#1e4fa0 100%);padding:2.5rem 1.25rem 3.5rem;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-60px;right:-80px;width:300px;height:300px;background:rgba(255,255,255,0.04);border-radius:50%;}
+  .hero::after{content:'';position:absolute;bottom:-80px;left:-60px;width:250px;height:250px;background:rgba(255,255,255,0.03);border-radius:50%;}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:5px 14px;font-size:12px;color:rgba(255,255,255,0.85);font-weight:500;margin-bottom:12px;position:relative;}
+  .hero h1{font-family:'DM Serif Display',serif;font-size:2.2rem;color:#fff;margin-bottom:8px;position:relative;}
+  .hero p{font-size:15px;color:rgba(255,255,255,0.7);position:relative;}
+  @media(max-width:520px){
+    .hero{padding:1.75rem 1rem 3rem;}
+    .hero h1{font-size:1.6rem;}
+    .hero p{font-size:13px;}
+  }
 
-  /* Search box */
-  .search-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; }
-  .search-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text2); font-weight: 600; margin-bottom: 10px; display: block; }
-  .search-row { display: flex; gap: 8px; }
-  .search-input { flex: 1; background: var(--bg); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 14px; padding: 10px 14px; letter-spacing: 1px; text-transform: uppercase; transition: border-color 0.15s, box-shadow 0.15s; }
-  .search-input::placeholder { color: var(--text3); text-transform: none; letter-spacing: 0; font-family: 'DM Sans'; }
-  .search-input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
-  .search-btn { background: var(--blue); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; white-space: nowrap; }
-  .search-btn:hover { background: #2563EB; }
-  .search-btn:active { transform: scale(0.97); }
-  .divider { display: flex; align-items: center; gap: 8px; margin: 10px 0; }
-  .divider-line { flex: 1; height: 1px; background: var(--border); }
-  .divider span { font-size: 11px; color: var(--text3); }
+  /* MAIN */
+  .main{max-width:900px;margin:-2rem auto 3rem;padding:0 1rem;position:relative;z-index:10;}
+  @media(max-width:520px){.main{padding:0 0.75rem;margin-bottom:2rem;}}
 
-  /* Quick access demos */
-  .quick-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text3); font-weight: 600; margin-bottom: 8px; display: block; }
-  .quick-chips { display: flex; gap: 6px; flex-wrap: wrap; }
-  .chip { background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; padding: 6px 12px; font-size: 12px; font-family: 'DM Mono', monospace; cursor: pointer; color: var(--text2); transition: all 0.15s; letter-spacing: 0.5px; }
-  .chip:hover { background: var(--blue-glow); border-color: var(--blue); color: var(--blue); }
+  /* LAYOUT */
+  .layout{display:grid;grid-template-columns:1fr 300px;gap:1rem;align-items:start;}
+  @media(max-width:700px){.layout{grid-template-columns:1fr;}}
 
-  /* Result card */
-  .result-card { border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem; animation: slideUp 0.25s ease; border: 1px solid var(--border); }
-  @keyframes slideUp { from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);} }
+  /* CARD */
+  .card{background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);overflow:hidden;margin-bottom:1rem;}
+  .card-header{background:var(--navy);color:#fff;padding:14px 20px;font-size:13px;font-weight:600;letter-spacing:0.3px;display:flex;align-items:center;gap:8px;}
+  .card-header span{opacity:0.7;font-weight:400;margin-left:auto;font-size:12px;}
+  .card-body{padding:1.25rem;}
+  @media(max-width:520px){.card-body{padding:1rem;}}
 
-  /* Status banner */
-  .status-banner { padding: 1rem 1.25rem; display: flex; align-items: center; gap: 12px; }
-  .status-banner.ok { background: var(--green-bg); border-bottom: 1px solid var(--green-border); }
-  .status-banner.warn { background: var(--amber-bg); border-bottom: 1px solid var(--amber-border); }
-  .status-banner.err { background: var(--red-bg); border-bottom: 1px solid var(--red-border); }
-  .status-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-  .status-icon.ok { background: var(--green-bg); border: 2px solid var(--green); }
-  .status-icon.warn { background: var(--amber-bg); border: 2px solid var(--amber); }
-  .status-icon.err { background: var(--red-bg); border: 2px solid var(--red); }
-  .status-text h2 { font-size: 15px; font-weight: 700; }
-  .status-text h2.ok { color: var(--green); }
-  .status-text h2.warn { color: var(--amber); }
-  .status-text h2.err { color: var(--red); }
-  .status-text p { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  /* QR SCANNER */
+  .qr-scanner-wrap{position:relative;width:100%;aspect-ratio:1;max-width:260px;margin:0 auto 1.25rem;border-radius:14px;overflow:hidden;background:#0a0f1a;cursor:pointer;user-select:none;}
+  .qr-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0f1a 0%,#111827 50%,#0c1420 100%);}
+  .qr-noise{position:absolute;inset:0;opacity:0.06;background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:4px 4px;}
+  .qr-corners{position:absolute;inset:0;}
+  .qr-corners::before,.qr-corners::after,.qr-inner::before,.qr-inner::after{content:'';position:absolute;width:26px;height:26px;border-color:#fff;border-style:solid;}
+  .qr-corners::before{top:14px;left:14px;border-width:3px 0 0 3px;border-radius:4px 0 0 0;}
+  .qr-corners::after{top:14px;right:14px;border-width:3px 3px 0 0;border-radius:0 4px 0 0;}
+  .qr-inner{position:absolute;inset:0;}
+  .qr-inner::before{bottom:14px;left:14px;border-width:0 0 3px 3px;border-radius:0 0 0 4px;}
+  .qr-inner::after{bottom:14px;right:14px;border-width:0 3px 3px 0;border-radius:0 0 4px 0;}
+  .qr-scanline{position:absolute;left:14px;right:14px;height:2px;background:linear-gradient(90deg,transparent,#2563EB,transparent);border-radius:2px;box-shadow:0 0 8px rgba(37,99,235,0.8);top:14px;animation:scan 2s ease-in-out infinite;}
+  @keyframes scan{0%{top:14px}50%{top:calc(100% - 14px)}100%{top:14px}}
+  .qr-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.38);transition:background 0.3s;}
+  .qr-center-icon{font-size:28px;margin-bottom:8px;}
+  .qr-hint{font-size:12px;color:rgba(255,255,255,0.85);text-align:center;line-height:1.5;font-weight:500;padding:0 12px;}
+  .scanner-active .qr-overlay{background:rgba(0,0,0,0.15);}
+  .scanner-active .qr-scanline{animation-duration:1s;}
+  .scanner-success .qr-overlay{background:rgba(5,150,105,0.35);}
+  .scanner-success .qr-scanline{background:linear-gradient(90deg,transparent,#10B981,transparent);box-shadow:0 0 10px rgba(16,185,129,0.9);animation:none;top:50%;}
+  .qr-btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;min-height:44px;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .qr-btn:hover{background:var(--navy-dark);}
+  .qr-btn.scanning{background:var(--red);}
+  .qr-status-msg{text-align:center;font-size:12px;color:var(--gray-400);margin-top:10px;min-height:18px;}
+  .qr-status-msg.success{color:var(--green);font-weight:600;}
+  .qr-status-msg.scanning{color:var(--blue);}
 
-  /* Info sections */
-  .card-body { background: var(--surface); }
-  .info-section { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
-  .info-section:last-child { border-bottom: none; }
-  .info-section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); font-weight: 700; margin-bottom: 10px; }
-  .info-row { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; }
-  .info-icon { font-size: 14px; flex-shrink: 0; width: 20px; margin-top: 1px; }
-  .info-key { font-size: 12px; color: var(--text2); min-width: 90px; flex-shrink: 0; }
-  .info-val { font-size: 13px; color: var(--text); font-weight: 500; }
-  .info-val.mono { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 1px; }
+  /* SEARCH */
+  .search-label{font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-500);font-weight:600;margin-bottom:10px;display:block;}
+  .search-row{display:flex;gap:8px;}
+  .search-input{flex:1;background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:8px;color:var(--gray-900);font-family:'DM Mono',monospace;font-size:14px;padding:10px 14px;letter-spacing:1px;text-transform:uppercase;transition:border-color 0.15s,box-shadow 0.15s;min-width:0;}
+  .search-input::placeholder{color:var(--gray-400);text-transform:none;letter-spacing:0;font-family:'DM Sans';font-size:13px;}
+  .search-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.12);}
+  .search-btn{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;white-space:nowrap;min-height:44px;}
+  .search-btn:hover{background:var(--navy-dark);}
+  .search-btn:active{transform:scale(0.97);}
+  .divider{display:flex;align-items:center;gap:8px;margin:12px 0;}
+  .divider-line{flex:1;height:1px;background:var(--gray-200);}
+  .divider span{font-size:11px;color:var(--gray-400);}
+  .quick-label{font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-400);font-weight:600;margin-bottom:8px;display:block;}
+  .quick-chips{display:flex;gap:6px;flex-wrap:wrap;}
+  .chip{background:var(--gray-100);border:1px solid var(--gray-200);border-radius:6px;padding:6px 12px;font-size:12px;font-family:'DM Mono',monospace;cursor:pointer;color:var(--gray-700);transition:all 0.15s;letter-spacing:0.5px;}
+  .chip:hover{background:var(--blue-light);border-color:var(--blue);color:var(--blue);}
 
-  /* Badges */
-  .badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-  .badge.ok { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
-  .badge.warn { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
-  .badge.err { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+  /* RESULT CARD */
+  .result-card{border-radius:16px;overflow:hidden;margin-bottom:1rem;animation:slideUp 0.25s ease;box-shadow:var(--shadow-lg);}
+  @keyframes slideUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  .status-banner{padding:1rem 1.25rem;display:flex;align-items:center;gap:14px;}
+  .status-banner.ok{background:var(--green-light);border-bottom:2px solid #6EE7B7;}
+  .status-banner.warn{background:var(--amber-light);border-bottom:2px solid #FCD34D;}
+  .status-banner.err{background:var(--red-light);border-bottom:2px solid #FCA5A5;}
+  .status-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+  .status-icon.ok{background:#D1FAE5;border:2px solid #6EE7B7;}
+  .status-icon.warn{background:var(--amber-light);border:2px solid #FCD34D;}
+  .status-icon.err{background:var(--red-light);border:2px solid #FCA5A5;}
+  .status-text h2{font-size:15px;font-weight:700;}
+  .status-text h2.ok{color:var(--green);}
+  .status-text h2.warn{color:var(--amber);}
+  .status-text h2.err{color:var(--red);}
+  .status-text p{font-size:12px;color:var(--gray-500);margin-top:2px;line-height:1.4;}
+  .result-body{background:#fff;}
+  .info-section{padding:1rem 1.25rem;border-bottom:1px solid var(--gray-100);}
+  .info-section:last-child{border-bottom:none;}
+  .info-section-title{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--gray-400);font-weight:700;margin-bottom:10px;}
+  .info-row{display:flex;align-items:flex-start;gap:8px;padding:5px 0;}
+  .info-icon{font-size:14px;flex-shrink:0;width:20px;margin-top:1px;}
+  .info-key{font-size:12px;color:var(--gray-500);min-width:88px;flex-shrink:0;}
+  .info-val{font-size:13px;color:var(--gray-900);font-weight:500;word-break:break-word;}
+  .info-val.mono{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1px;}
+  .badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}
+  .badge.ok{background:var(--green-light);color:var(--green);border:1px solid #6EE7B7;}
+  .badge.warn{background:var(--amber-light);color:var(--amber);border:1px solid #FCD34D;}
+  .badge.err{background:var(--red-light);color:var(--red);border:1px solid #FCA5A5;}
+  .time-bar{background:var(--gray-50);border-top:1px solid var(--gray-100);padding:10px 1.25rem;display:flex;align-items:center;gap:10px;}
+  .time-bar-label{font-size:11px;color:var(--gray-500);flex-shrink:0;}
+  .time-bar-track{flex:1;height:4px;background:var(--gray-200);border-radius:2px;overflow:hidden;}
+  .time-bar-fill{height:100%;border-radius:2px;transition:width 0.5s ease;}
+  .time-bar-val{font-size:12px;font-weight:600;font-family:'DM Mono',monospace;flex-shrink:0;}
+  .action-bar{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:1rem 1.25rem;background:var(--gray-50);border-top:1px solid var(--gray-100);}
+  @media(max-width:380px){.action-bar{grid-template-columns:1fr;}}
+  .act-btn{padding:12px 10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all 0.15s;text-align:center;min-height:44px;}
+  .act-btn:active{transform:scale(0.97);}
+  .act-btn.admit{background:var(--green);color:#fff;}
+  .act-btn.admit:hover{background:#047857;}
+  .act-btn.deny{background:var(--red-light);color:var(--red);border:1px solid #FCA5A5;}
+  .act-btn.deny:hover{background:#fecaca;}
+  .act-btn.reschedule{background:var(--amber-light);color:var(--amber);border:1px solid #FCD34D;}
+  .act-btn.reschedule:hover{background:#fde68a;}
 
-  /* Time indicator */
-  .time-bar { background: var(--surface2); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; margin: 0 1.25rem 1rem; }
-  .time-bar-label { font-size: 11px; color: var(--text2); }
-  .time-bar-track { flex: 1; height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
-  .time-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
-  .time-bar-val { font-size: 12px; font-weight: 600; font-family: 'DM Mono', monospace; }
+  /* QUEUE */
+  .queue-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--navy);color:#fff;}
+  .queue-header h2{font-size:13px;font-weight:600;}
+  .queue-count{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;}
+  .queue-list{background:#fff;}
+  .queue-item{display:flex;align-items:center;gap:12px;padding:12px 1.25rem;border-bottom:1px solid var(--gray-100);cursor:pointer;transition:background 0.1s;}
+  .queue-item:last-child{border-bottom:none;}
+  .queue-item:hover{background:var(--navy-light);}
+  .q-time{font-family:'DM Mono',monospace;font-size:13px;font-weight:600;color:var(--blue);min-width:44px;flex-shrink:0;}
+  .q-info{flex:1;min-width:0;}
+  .q-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .q-svc{font-size:11px;color:var(--gray-500);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .q-now{font-size:10px;font-weight:700;color:var(--green);background:var(--green-light);border:1px solid #6EE7B7;border-radius:4px;padding:2px 7px;text-transform:uppercase;letter-spacing:0.5px;flex-shrink:0;}
+  .q-next{font-size:10px;color:var(--amber);font-weight:600;flex-shrink:0;}
+  .q-done{font-size:11px;color:var(--gray-400);flex-shrink:0;}
 
-  /* Action buttons */
-  .action-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 1rem 1.25rem; background: var(--surface); border-top: 1px solid var(--border); }
-  .act-btn { padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; border: none; transition: all 0.15s; text-align: center; }
-  .act-btn:active { transform: scale(0.97); }
-  .act-btn.admit { background: var(--green); color: #fff; }
-  .act-btn.admit:hover { background: #059669; }
-  .act-btn.deny { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
-  .act-btn.deny:hover { background: rgba(239,68,68,0.2); }
-  .act-btn.reschedule { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
-  .act-btn.reschedule:hover { background: rgba(245,158,11,0.2); }
-  .act-btn.clear { background: var(--surface2); color: var(--text2); border: 1px solid var(--border2); }
-  .act-btn.clear:hover { background: var(--border2); }
+  /* NOT FOUND */
+  .not-found{background:#fff;border:1px solid #FCA5A5;border-radius:16px;padding:2rem;text-align:center;margin-bottom:1rem;animation:slideUp 0.25s ease;box-shadow:var(--shadow);}
+  .nf-icon{font-size:36px;margin-bottom:10px;}
+  .not-found h3{font-size:16px;font-weight:600;color:var(--red);margin-bottom:4px;}
+  .not-found p{font-size:13px;color:var(--gray-500);line-height:1.5;}
 
-  /* Queue section */
-  .section-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-  .section-hdr h2 { font-size: 13px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.6px; }
-  .queue-count { background: var(--blue-glow); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 700; }
-
-  .queue-list { display: flex; flex-direction: column; gap: 6px; }
-  .queue-item { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.15s; }
-  .queue-item:hover { border-color: var(--border2); background: var(--surface2); }
-  .q-time { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 600; color: var(--blue); min-width: 48px; }
-  .q-info { flex: 1; }
-  .q-name { font-size: 13px; font-weight: 600; }
-  .q-svc { font-size: 11px; color: var(--text2); margin-top: 1px; }
-  .q-status { }
-  .q-now { font-size: 10px; font-weight: 700; color: var(--green); background: var(--green-bg); border: 1px solid var(--green-border); border-radius: 4px; padding: 2px 7px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .q-next { font-size: 10px; color: var(--amber); }
-
-  /* Toast */
-  .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface); border: 1px solid var(--border2); border-radius: 10px; padding: 12px 20px; font-size: 13px; font-weight: 500; z-index: 200; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.green { color: var(--green); border-color: var(--green-border); }
-  .toast.red { color: var(--red); border-color: var(--red-border); }
-  .toast.amber { color: var(--amber); border-color: var(--amber-border); }
-
-  /* Not found */
-  .not-found { background: var(--surface); border: 1px solid var(--red-border); border-radius: var(--radius); padding: 2rem; text-align: center; margin-bottom: 1rem; animation: slideUp 0.25s ease; }
-  .not-found .nf-icon { font-size: 32px; margin-bottom: 8px; }
-  .not-found h3 { font-size: 16px; font-weight: 600; color: var(--red); margin-bottom: 4px; }
-  .not-found p { font-size: 13px; color: var(--text2); }
-
-  /* Empty state */
-  .empty { text-align: center; padding: 3rem 1rem; color: var(--text3); }
-  .empty-icon { font-size: 40px; margin-bottom: 10px; }
-  .empty p { font-size: 14px; }
+  /* TOAST */
+  .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--gray-900);border-radius:10px;padding:12px 20px;font-size:13px;font-weight:500;z-index:300;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 8px 24px rgba(0,0,0,0.25);color:#fff;max-width:calc(100vw - 2rem);text-align:center;}
+  .toast.show{transform:translateX(-50%) translateY(0);}
+  .toast.green{background:var(--green);}
+  .toast.red{background:var(--red);}
+  .toast.amber{background:var(--amber);}
 </style>
 </head>
 <body>
 
-<header class="hdr">
-  <div class="hdr-inner">
-    <div class="hdr-logo">
-      <svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="#" class="site-logo">
+      <div class="site-logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+      </div>
+      <div class="site-logo-text">Registro Civil <span>/ Verificador de Acceso</span></div>
+    </a>
+    <div class="header-right">
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        <span>En línea</span>
+      </div>
+      <div class="clock-badge" id="clockEl">--:--:--</div>
     </div>
-    <div class="hdr-title">
-      <h1>Verificador de Citas</h1>
-      <p>Registro Civil — Control de Acceso</p>
-    </div>
-    <div class="status-dot"></div>
-    <div class="hdr-time" id="clockEl">--:--</div>
   </div>
 </header>
 
-<div class="main">
-
-  <!-- Search -->
-  <div class="search-section">
-    <span class="search-label">Buscar por folio de cita</span>
-    <div class="search-row">
-      <input class="search-input" id="searchInput" type="text" placeholder="Ingresa el folio..." maxlength="20" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')buscar()">
-      <button class="search-btn" onclick="buscar()">Verificar</button>
-    </div>
-    <div class="divider"><div class="divider-line"></div><span>citas de hoy</span><div class="divider-line"></div></div>
-    <span class="quick-label">Acceso rápido — demo</span>
-    <div class="quick-chips">
-      <div class="chip" onclick="cargar('RC-2025-482910')">RC-2025-482910</div>
-      <div class="chip" onclick="cargar('RC-2025-371044')">RC-2025-371044</div>
-      <div class="chip" onclick="cargar('RC-2025-600001')">RC-2025-600001</div>
-      <div class="chip" onclick="cargar('RC-2025-000000')">Folio inválido</div>
-    </div>
-  </div>
-
-  <!-- Result container -->
-  <div id="resultContainer"></div>
-
-  <!-- Queue -->
-  <div class="section-hdr">
-    <h2>Cola de hoy — <span id="fechaHoy"></span></h2>
-    <div class="queue-count" id="qCount">6 pendientes</div>
-  </div>
-  <div class="queue-list" id="queueList"></div>
+<div class="hero">
+  <div class="hero-badge">🏛️ Control de Acceso — Módulo Central</div>
+  <h1>Verificador de Citas</h1>
+  <p>Escanea el QR o ingresa el folio para validar el acceso del ciudadano</p>
 </div>
 
-<!-- Toast -->
+<div class="main">
+  <div class="layout">
+
+    <!-- Izquierda: búsqueda + resultado -->
+    <div>
+      <div class="card">
+        <div class="card-header">🔍 Verificar folio <span>Ventanilla B</span></div>
+        <div class="card-body">
+          <span class="search-label">Número de folio</span>
+          <div class="search-row">
+            <input class="search-input" id="searchInput" type="text" placeholder="Ej. RC-2025-482910" maxlength="20"
+              oninput="this.value=this.value.toUpperCase()"
+              onkeydown="if(event.key==='Enter')buscar()">
+            <button class="search-btn" onclick="buscar()">Verificar</button>
+          </div>
+          <div class="divider"><div class="divider-line"></div><span>acceso rápido demo</span><div class="divider-line"></div></div>
+          <span class="quick-label">Folios de prueba</span>
+          <div class="quick-chips">
+            <div class="chip" onclick="cargar('RC-2025-482910')">RC-2025-482910</div>
+            <div class="chip" onclick="cargar('RC-2025-371044')">RC-2025-371044</div>
+            <div class="chip" onclick="cargar('RC-2025-600001')">RC-2025-600001</div>
+            <div class="chip" onclick="cargar('RC-2025-000000')">Inválido</div>
+          </div>
+        </div>
+      </div>
+      <div id="resultContainer"></div>
+    </div>
+
+    <!-- Derecha: QR + cola -->
+    <div>
+      <div class="card">
+        <div class="card-header">📷 Escáner QR</div>
+        <div class="card-body">
+          <div class="qr-scanner-wrap scanner-idle" id="qrWrap" onclick="toggleScanner()">
+            <div class="qr-bg"></div>
+            <div class="qr-noise"></div>
+            <div class="qr-corners"></div>
+            <div class="qr-inner"></div>
+            <div class="qr-scanline" id="qrScanline"></div>
+            <div class="qr-overlay" id="qrOverlay">
+              <div class="qr-center-icon" id="qrIcon">📷</div>
+              <div class="qr-hint" id="qrHint">Toca para activar cámara</div>
+            </div>
+          </div>
+          <button class="qr-btn" id="qrBtn" onclick="toggleScanner()">
+            <span id="qrBtnIcon">📷</span>
+            <span id="qrBtnText">Activar escáner QR</span>
+          </button>
+          <p class="qr-status-msg" id="qrMsg">Demo — escáner simulado</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="queue-header">
+          <h2>Cola — <span id="fechaHoy"></span></h2>
+          <div class="queue-count" id="qCount">…</div>
+        </div>
+        <div class="queue-list" id="queueList"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const CITAS = {
-  'RC-2025-482910': {
-    nombre: 'María Fernanda García Martínez',
-    curp: 'GAEM900101MDFRRR09',
-    tramite: 'Acta de Nacimiento',
-    fecha: 'martes, 6 de mayo de 2025',
-    hora: '09:30',
-    email: 'maria.garcia@gmail.com',
-    tel: '5512345678',
-    status: 'ok',   // ok | warn | used
-    ventanilla: 'B',
-    docs: ['Identificación oficial','CURP','Comprobante de domicilio']
-  },
-  'RC-2025-371044': {
-    nombre: 'Roberto Sánchez Herrera',
-    curp: 'SAHR850615HDFNRB03',
-    tramite: 'Divorcio Administrativo',
-    fecha: 'martes, 6 de mayo de 2025',
-    hora: '11:00',
-    email: 'rsanchez@outlook.com',
-    tel: '5598765432',
-    status: 'warn',  // warn = llegó tarde / fuera de horario
-    ventanilla: 'B',
-    docs: ['IDs de ambos cónyuges','Acta de matrimonio','Convenio firmado']
-  },
-  'RC-2025-600001': {
-    nombre: 'Lucía Mendoza Torres',
-    curp: 'METL920320MDFNRC01',
-    tramite: 'CURP',
-    fecha: 'lunes, 5 de mayo de 2025',
-    hora: '10:00',
-    email: 'lucia.mt@yahoo.com',
-    tel: '5523456789',
-    status: 'used',  // used = ya fue atendida
-    ventanilla: 'A',
-    docs: ['Acta de nacimiento','Identificación oficial']
-  }
+  'RC-2025-482910':{nombre:'María Fernanda García Martínez',curp:'GAEM900101MDFRRR09',tramite:'Acta de Nacimiento',fecha:'martes, 6 de mayo de 2025',hora:'09:30',email:'maria.garcia@gmail.com',tel:'55 1234 5678',status:'ok',ventanilla:'B',docs:['Identificación oficial','CURP','Comprobante de domicilio']},
+  'RC-2025-371044':{nombre:'Roberto Sánchez Herrera',curp:'SAHR850615HDFNRB03',tramite:'Divorcio Administrativo',fecha:'martes, 6 de mayo de 2025',hora:'11:00',email:'rsanchez@outlook.com',tel:'55 9876 5432',status:'warn',ventanilla:'B',docs:['IDs de ambos cónyuges','Acta de matrimonio','Convenio firmado']},
+  'RC-2025-600001':{nombre:'Lucía Mendoza Torres',curp:'METL920320MDFNRC01',tramite:'CURP',fecha:'lunes, 5 de mayo de 2025',hora:'10:00',email:'lucia.mt@yahoo.com',tel:'55 2345 6789',status:'used',ventanilla:'A',docs:['Acta de nacimiento','Identificación oficial']}
 };
-
-const QUEUE = [
-  { folio:'RC-2025-482910', hora:'09:30', nombre:'María F. García', tramite:'Acta de Nacimiento', estado:'activo' },
-  { folio:'RC-2025-510234', hora:'10:00', nombre:'José L. Ramírez', tramite:'Reconocimiento de Hijo', estado:'pendiente' },
-  { folio:'RC-2025-371044', hora:'11:00', nombre:'Roberto Sánchez', tramite:'Divorcio Administrativo', estado:'pendiente' },
-  { folio:'RC-2025-521009', hora:'11:30', nombre:'Ana P. Flores', tramite:'Acta de Nacimiento', estado:'pendiente' },
-  { folio:'RC-2025-489001', hora:'12:00', nombre:'Carlos Reyes V.', tramite:'Acta de Matrimonio', estado:'pendiente' },
-  { folio:'RC-2025-600001', hora:'10:00', nombre:'Lucía Mendoza', tramite:'CURP', estado:'atendido' },
+const QUEUE=[
+  {folio:'RC-2025-482910',hora:'09:30',nombre:'María F. García',tramite:'Acta de Nacimiento',estado:'activo'},
+  {folio:'RC-2025-510234',hora:'10:00',nombre:'José L. Ramírez',tramite:'Reconocimiento de Hijo',estado:'pendiente'},
+  {folio:'RC-2025-371044',hora:'11:00',nombre:'Roberto Sánchez',tramite:'Divorcio Administrativo',estado:'pendiente'},
+  {folio:'RC-2025-521009',hora:'11:30',nombre:'Ana P. Flores',tramite:'Acta de Nacimiento',estado:'pendiente'},
+  {folio:'RC-2025-489001',hora:'12:00',nombre:'Carlos Reyes V.',tramite:'Acta de Matrimonio',estado:'pendiente'},
+  {folio:'RC-2025-600001',hora:'10:00',nombre:'Lucía Mendoza',tramite:'CURP',estado:'atendido'},
 ];
+const DEMO_QR=['RC-2025-482910','RC-2025-371044','RC-2025-600001'];
+let admitted=new Set(), scannerState='idle', scanTimeout=null, demoIdx=0;
 
-let admitted = new Set();
-
-function tick(){
-  const now = new Date();
-  document.getElementById('clockEl').textContent = now.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-}
-tick(); setInterval(tick, 1000);
-
+/* clock */
+function tick(){document.getElementById('clockEl').textContent=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+tick();setInterval(tick,1000);
 const dias=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-const meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const hoy=new Date();
-document.getElementById('fechaHoy').textContent=dias[hoy.getDay()]+' '+hoy.getDate()+'/'+String(hoy.getMonth()+1).padStart(2,'0');
+document.getElementById('fechaHoy').textContent=dias[hoy.getDay()]+' '+hoy.getDate()+'/'+(hoy.getMonth()+1).toString().padStart(2,'0');
 
+/* QR scanner */
+function toggleScanner(){if(scannerState==='idle'||scannerState==='success')startScanner();else stopScanner();}
+function startScanner(){
+  scannerState='scanning';
+  document.getElementById('qrWrap').className='qr-scanner-wrap scanner-active';
+  document.getElementById('qrIcon').textContent='⏹';
+  document.getElementById('qrHint').textContent='Apunta al código QR de la cita';
+  document.getElementById('qrBtn').className='qr-btn scanning';
+  document.getElementById('qrBtnIcon').textContent='⏹';
+  document.getElementById('qrBtnText').textContent='Detener escáner';
+  document.getElementById('qrMsg').textContent='Escaneando…';
+  document.getElementById('qrMsg').className='qr-status-msg scanning';
+  scanTimeout=setTimeout(()=>{const f=DEMO_QR[demoIdx++%DEMO_QR.length];scanSuccess(f);},2500);
+}
+function stopScanner(){clearTimeout(scanTimeout);scannerState='idle';resetQR();}
+function scanSuccess(folio){
+  scannerState='success';
+  document.getElementById('qrWrap').className='qr-scanner-wrap scanner-success';
+  document.getElementById('qrIcon').textContent='✅';
+  document.getElementById('qrHint').textContent='QR leído correctamente';
+  document.getElementById('qrBtn').className='qr-btn';
+  document.getElementById('qrBtnIcon').textContent='📷';
+  document.getElementById('qrBtnText').textContent='Escanear otro QR';
+  document.getElementById('qrMsg').textContent='Folio: '+folio;
+  document.getElementById('qrMsg').className='qr-status-msg success';
+  cargar(folio);
+  setTimeout(resetQR,3000);
+}
+function resetQR(){
+  scannerState='idle';
+  document.getElementById('qrWrap').className='qr-scanner-wrap scanner-idle';
+  document.getElementById('qrIcon').textContent='📷';
+  document.getElementById('qrHint').textContent='Toca para activar cámara';
+  document.getElementById('qrBtn').className='qr-btn';
+  document.getElementById('qrBtnIcon').textContent='📷';
+  document.getElementById('qrBtnText').textContent='Activar escáner QR';
+  document.getElementById('qrMsg').textContent='Demo — escáner simulado';
+  document.getElementById('qrMsg').className='qr-status-msg';
+}
+
+/* search */
 function cargar(folio){
   document.getElementById('searchInput').value=folio;
   buscar();
+  setTimeout(()=>{const rc=document.getElementById('resultContainer');if(rc.firstChild&&window.innerWidth<700)rc.scrollIntoView({behavior:'smooth',block:'start'});},100);
 }
-
 function buscar(){
-  const raw = document.getElementById('searchInput').value.trim().toUpperCase();
-  const folio = raw.startsWith('RC-') ? raw : 'RC-'+raw;
-  const cita = CITAS[folio]||CITAS[raw];
-  const isAdmitted = admitted.has(folio)||admitted.has(raw);
-  renderResult(folio, cita, isAdmitted);
+  const raw=document.getElementById('searchInput').value.trim().toUpperCase();
+  const folio=raw.startsWith('RC-')?raw:'RC-'+raw;
+  const cita=CITAS[folio]||CITAS[raw];
+  renderResult(folio,cita,admitted.has(folio)||admitted.has(raw));
 }
-
-function renderResult(folio, cita, isAdmitted){
-  const c = document.getElementById('resultContainer');
-  if(!cita){
-    c.innerHTML=`<div class="not-found"><div class="nf-icon">🔍</div><h3>Folio no encontrado</h3><p>El folio <strong>${folio}</strong> no existe en el sistema.<br>Verifica el número e intenta de nuevo.</p></div>`;
-    return;
-  }
-  let statusClass='', statusIcon='', statusTitle='', statusMsg='';
-  if(isAdmitted||cita.status==='used'){
-    statusClass='err'; statusIcon='⚠️';
-    statusTitle='Cita ya atendida';
-    statusMsg='Esta persona ya fue registrada y atendida hoy.';
-  } else if(cita.status==='ok'){
-    statusClass='ok'; statusIcon='✅';
-    statusTitle='Cita válida — Permitir acceso';
-    statusMsg='Documentación y horario verificados correctamente.';
-  } else if(cita.status==='warn'){
-    statusClass='warn'; statusIcon='⏰';
-    statusTitle='Fuera de horario';
-    statusMsg='La cita estaba programada para las '+cita.hora+' hrs. Evaluación requerida.';
-  }
-
-  // Tiempo restante o transcurrido
+function renderResult(folio,cita,isAdmitted){
+  const c=document.getElementById('resultContainer');
+  if(!cita){c.innerHTML='<div class="not-found"><div class="nf-icon">🔍</div><h3>Folio no encontrado</h3><p>El folio <strong>'+folio+'</strong> no existe en el sistema.<br>Verifica el número e intenta de nuevo.</p></div>';return;}
+  let sc,si,st,sm;
+  if(isAdmitted||cita.status==='used'){sc='err';si='⚠️';st='Cita ya atendida';sm='Esta persona ya fue registrada y atendida hoy.';}
+  else if(cita.status==='ok'){sc='ok';si='✅';st='Cita válida — Permitir acceso';sm='Documentación y horario verificados correctamente.';}
+  else{sc='warn';si='⏰';st='Fuera de horario';sm='La cita estaba programada para las '+cita.hora+' hrs. Evaluación requerida.';}
   const [hh,mm]=cita.hora.split(':').map(Number);
-  const citaMin=hh*60+mm;
-  const ahoraMin=new Date().getHours()*60+new Date().getMinutes();
-  const diff=citaMin-ahoraMin;
-  let timeLabel='', timePct=50, timeColor='var(--blue)';
-  if(diff>30){timeLabel=`En ${diff} min`;timePct=20;timeColor='var(--green)';}
-  else if(diff>0&&diff<=30){timeLabel=`En ${diff} min`;timePct=60;timeColor='var(--amber)';}
-  else if(diff===0){timeLabel='¡Ahora!';timePct=100;timeColor='var(--green)';}
-  else{timeLabel=`Hace ${Math.abs(diff)} min`;timePct=100;timeColor=Math.abs(diff)>30?'var(--red)':'var(--amber)';}
-
-  const folioKey = folio;
-  c.innerHTML=`
-  <div class="result-card">
-    <div class="status-banner ${statusClass}">
-      <div class="status-icon ${statusClass}">${statusIcon}</div>
-      <div class="status-text">
-        <h2 class="${statusClass}">${statusTitle}</h2>
-        <p>${statusMsg}</p>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="info-section">
-        <div class="info-section-title">Ciudadano</div>
-        <div class="info-row"><span class="info-icon">👤</span><span class="info-key">Nombre</span><span class="info-val">${cita.nombre}</span></div>
-        <div class="info-row"><span class="info-icon">🪪</span><span class="info-key">CURP</span><span class="info-val mono">${cita.curp}</span></div>
-        <div class="info-row"><span class="info-icon">📧</span><span class="info-key">Correo</span><span class="info-val" style="font-size:12px">${cita.email}</span></div>
-        <div class="info-row"><span class="info-icon">📱</span><span class="info-key">Teléfono</span><span class="info-val">${cita.tel}</span></div>
-      </div>
-      <div class="info-section">
-        <div class="info-section-title">Detalles de la cita</div>
-        <div class="info-row"><span class="info-icon">📋</span><span class="info-key">Trámite</span><span class="info-val">${cita.tramite}</span></div>
-        <div class="info-row"><span class="info-icon">📅</span><span class="info-key">Fecha</span><span class="info-val">${cita.fecha}</span></div>
-        <div class="info-row"><span class="info-icon">⏰</span><span class="info-key">Hora</span><span class="info-val"><strong>${cita.hora} hrs</strong></span></div>
-        <div class="info-row"><span class="info-icon">🚪</span><span class="info-key">Ventanilla</span><span class="info-val">Ventanilla ${cita.ventanilla}</span></div>
-        <div class="info-row"><span class="info-icon">🎫</span><span class="info-key">Folio</span><span class="info-val mono" style="color:var(--blue)">${folioKey}</span></div>
-      </div>
-      <div class="info-section">
-        <div class="info-section-title">Estado</div>
-        <div class="info-row"><span class="info-icon">📊</span><span class="info-key">Estatus</span><span class="info-val"><span class="badge ${statusClass}">${statusClass==='ok'?'Válida':statusClass==='warn'?'Revisión':statusClass==='err'?'Ya atendida':''}</span></span></div>
-        <div class="info-row"><span class="info-icon">📎</span><span class="info-key">Documentos</span><span class="info-val" style="font-size:11px;line-height:1.6">${cita.docs.join('<br>')}</span></div>
-      </div>
-    </div>
-    <div class="time-bar">
-      <span class="time-bar-label">⏱ Cita:</span>
-      <div class="time-bar-track"><div class="time-bar-fill" style="width:${timePct}%;background:${timeColor}"></div></div>
-      <span class="time-bar-val" style="color:${timeColor}">${timeLabel}</span>
-    </div>
-    <div class="action-bar">
-      ${(cita.status==='ok'&&!isAdmitted)?`<button class="act-btn admit" onclick="admitir('${folioKey}')">✅ Admitir</button>`:
-        (isAdmitted||cita.status==='used')?`<button class="act-btn deny" onclick="showToast('Cita ya procesada','red')">⛔ Ya atendida</button>`
-        :`<button class="act-btn reschedule" onclick="showToast('Solicitud de reubicación enviada al sistema','amber')">🔄 Reubicar</button>`}
-      ${cita.status==='warn'?`<button class="act-btn admit" onclick="admitir('${folioKey}')">⚠️ Admitir igual</button>`:`<button class="act-btn deny" onclick="denegar('${folioKey}')">❌ Denegar</button>`}
-      <button class="act-btn reschedule" style="grid-column:1/-1" onclick="showToast('Notificación enviada al oficial de ventanilla '+\`${cita.ventanilla}\`,'green')">📢 Notificar al oficial</button>
-    </div>
-  </div>`;
+  const diff=(hh*60+mm)-(new Date().getHours()*60+new Date().getMinutes());
+  let tl,tp=50,tc='var(--blue)';
+  if(diff>30){tl='En '+diff+' min';tp=20;tc='var(--green)';}
+  else if(diff>0){tl='En '+diff+' min';tp=60;tc='var(--amber)';}
+  else if(diff===0){tl='¡Ahora!';tp=100;tc='var(--green)';}
+  else{tl='Hace '+Math.abs(diff)+' min';tp=100;tc=Math.abs(diff)>30?'var(--red)':'var(--amber)';}
+  const bl=sc==='ok'?'Válida':sc==='warn'?'Revisión':'Ya atendida';
+  const admBtn=(cita.status==='ok'&&!isAdmitted)?'<button class="act-btn admit" onclick="admitir(\''+folio+'\')">✅ Admitir</button>':(isAdmitted||cita.status==='used')?'<button class="act-btn deny" onclick="showToast(\'Cita ya procesada\',\'red\')">⛔ Ya atendida</button>':'<button class="act-btn reschedule" onclick="showToast(\'Solicitud enviada\',\'amber\')">🔄 Reubicar</button>';
+  const dnyBtn=cita.status==='warn'?'<button class="act-btn admit" onclick="admitir(\''+folio+'\')">⚠️ Admitir igual</button>':'<button class="act-btn deny" onclick="denegar(\''+folio+'\')">❌ Denegar</button>';
+  c.innerHTML='<div class="result-card"><div class="status-banner '+sc+'"><div class="status-icon '+sc+'">'+si+'</div><div class="status-text"><h2 class="'+sc+'">'+st+'</h2><p>'+sm+'</p></div></div><div class="result-body"><div class="info-section"><div class="info-section-title">Ciudadano</div><div class="info-row"><span class="info-icon">👤</span><span class="info-key">Nombre</span><span class="info-val">'+cita.nombre+'</span></div><div class="info-row"><span class="info-icon">🪪</span><span class="info-key">CURP</span><span class="info-val mono">'+cita.curp+'</span></div><div class="info-row"><span class="info-icon">📧</span><span class="info-key">Correo</span><span class="info-val" style="font-size:12px">'+cita.email+'</span></div><div class="info-row"><span class="info-icon">📱</span><span class="info-key">Teléfono</span><span class="info-val">'+cita.tel+'</span></div></div><div class="info-section"><div class="info-section-title">Detalles</div><div class="info-row"><span class="info-icon">📋</span><span class="info-key">Trámite</span><span class="info-val">'+cita.tramite+'</span></div><div class="info-row"><span class="info-icon">📅</span><span class="info-key">Fecha</span><span class="info-val">'+cita.fecha+'</span></div><div class="info-row"><span class="info-icon">⏰</span><span class="info-key">Hora</span><span class="info-val"><strong>'+cita.hora+' hrs</strong></span></div><div class="info-row"><span class="info-icon">🚪</span><span class="info-key">Ventanilla</span><span class="info-val">Ventanilla '+cita.ventanilla+'</span></div><div class="info-row"><span class="info-icon">🎫</span><span class="info-key">Folio</span><span class="info-val mono" style="color:var(--blue)">'+folio+'</span></div></div><div class="info-section"><div class="info-section-title">Estado</div><div class="info-row"><span class="info-icon">📊</span><span class="info-key">Estatus</span><span class="info-val"><span class="badge '+sc+'">'+bl+'</span></span></div><div class="info-row"><span class="info-icon">📎</span><span class="info-key">Documentos</span><span class="info-val" style="font-size:11px;line-height:1.8">'+cita.docs.join('<br>')+'</span></div></div></div><div class="time-bar"><span class="time-bar-label">⏱ Cita</span><div class="time-bar-track"><div class="time-bar-fill" style="width:'+tp+'%;background:'+tc+'"></div></div><span class="time-bar-val" style="color:'+tc+'">'+tl+'</span></div><div class="action-bar">'+admBtn+dnyBtn+'<button class="act-btn reschedule" style="grid-column:1/-1" onclick="showToast(\'Notificación enviada al oficial de Ventanilla '+cita.ventanilla+'\',\'green\')">📢 Notificar al oficial</button></div></div>';
 }
-
-function admitir(folio){
-  admitted.add(folio);
-  showToast('✅ Acceso permitido — '+folio,'green');
-  setTimeout(()=>{ document.getElementById('resultContainer').innerHTML=''; document.getElementById('searchInput').value=''; renderQueue(); },1800);
-}
-function denegar(folio){
-  showToast('⛔ Acceso denegado — '+folio,'red');
-  setTimeout(()=>{ document.getElementById('resultContainer').innerHTML=''; document.getElementById('searchInput').value=''; },1500);
-}
-
-function showToast(msg,type='green'){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.className='toast show '+type;
-  setTimeout(()=>t.classList.remove('show'),3000);
-}
-
+function admitir(folio){admitted.add(folio);showToast('✅ Acceso permitido — '+folio,'green');setTimeout(()=>{document.getElementById('resultContainer').innerHTML='';document.getElementById('searchInput').value='';renderQueue();},1800);}
+function denegar(folio){showToast('⛔ Acceso denegado — '+folio,'red');setTimeout(()=>{document.getElementById('resultContainer').innerHTML='';document.getElementById('searchInput').value='';},1500);}
+function showToast(msg,type='green'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>t.classList.remove('show'),3000);}
 function renderQueue(){
-  const list=document.getElementById('queueList');
   const pending=QUEUE.filter(q=>q.estado!=='atendido'&&!admitted.has(q.folio));
   document.getElementById('qCount').textContent=pending.length+' pendientes';
-  list.innerHTML=QUEUE.map((q,i)=>{
-    const isAdm=admitted.has(q.folio);
-    const isUsed=q.estado==='atendido';
-    return `<div class="queue-item" onclick="cargar('${q.folio}')">
-      <span class="q-time">${q.hora}</span>
-      <div class="q-info">
-        <div class="q-name" style="${isAdm||isUsed?'color:var(--text3);text-decoration:line-through':q.estado==='activo'?'color:var(--green)':''}">${q.nombre}</div>
-        <div class="q-svc">${q.tramite}</div>
-      </div>
-      <div class="q-status">
-        ${isAdm||isUsed?'<span style="font-size:11px;color:var(--text3)">✓ Atendido</span>':
-          q.estado==='activo'?'<span class="q-now">Ahora</span>':
-          i===1?'<span class="q-next">Siguiente</span>':''}
-      </div>
-    </div>`;
+  document.getElementById('queueList').innerHTML=QUEUE.map((q,i)=>{
+    const isAdm=admitted.has(q.folio),isUsed=q.estado==='atendido';
+    const ns=isAdm||isUsed?'color:var(--gray-400);text-decoration:line-through':q.estado==='activo'?'color:var(--green)':'';
+    const sh=isAdm||isUsed?'<span class="q-done">✓ Listo</span>':q.estado==='activo'?'<span class="q-now">Ahora</span>':i===1?'<span class="q-next">Siguiente</span>':'';
+    return '<div class="queue-item" onclick="cargar(\''+q.folio+'\')"><span class="q-time">'+q.hora+'</span><div class="q-info"><div class="q-name" style="'+ns+'">'+q.nombre+'</div><div class="q-svc">'+q.tramite+'</div></div><div>'+sh+'</div></div>';
   }).join('');
 }
-renderQueue();
-setInterval(renderQueue,5000);
+renderQueue();setInterval(renderQueue,5000);
 </script>
 </body>
 </html>
