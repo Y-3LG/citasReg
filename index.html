@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Citas — Registro Civil</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1A3A6B;
+    --navy-dark: #0C2244;
+    --navy-light: #E8EFF8;
+    --blue: #2563EB;
+    --blue-light: #DBEAFE;
+    --green: #059669;
+    --green-light: #D1FAE5;
+    --amber: #D97706;
+    --amber-light: #FEF3C7;
+    --red: #DC2626;
+    --red-light: #FEE2E2;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #F0F4F8; color: var(--gray-900); min-height: 100vh; }
+
+  /* Header */
+  .site-header { background: var(--navy); padding: 0 2rem; position: sticky; top: 0; z-index: 100; }
+  .site-header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; height: 64px; gap: 16px; }
+  .site-logo { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
+  .site-logo-mark { width: 36px; height: 36px; background: rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .site-logo-mark svg { width: 20px; height: 20px; fill: #fff; }
+  .site-logo-text { font-size: 15px; font-weight: 500; letter-spacing: -0.2px; }
+  .site-logo-text span { font-weight: 300; opacity: 0.7; }
+  .header-nav { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .header-nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; padding: 6px 12px; border-radius: 6px; transition: all 0.15s; }
+  .header-nav a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+  /* Hero */
+  .hero { background: linear-gradient(135deg, var(--navy) 0%, #1e4fa0 100%); padding: 3rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60px; right: -80px; width: 300px; height: 300px; background: rgba(255,255,255,0.04); border-radius: 50%; }
+  .hero::after { content: ''; position: absolute; bottom: -80px; left: -60px; width: 250px; height: 250px; background: rgba(255,255,255,0.03); border-radius: 50%; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: 2.4rem; color: #fff; margin-bottom: 10px; position: relative; }
+  .hero p { font-size: 16px; color: rgba(255,255,255,0.75); max-width: 480px; margin: 0 auto; position: relative; }
+
+  /* Main container */
+  .main { max-width: 860px; margin: -2rem auto 3rem; padding: 0 1.5rem; position: relative; z-index: 10; }
+
+  /* App card */
+  .app-card { background: #fff; border-radius: 16px; box-shadow: var(--shadow-lg); overflow: hidden; }
+
+  /* Step bar */
+  .step-bar { background: var(--gray-50); border-bottom: 1px solid var(--gray-200); padding: 1.25rem 2rem; }
+  .steps { display: flex; align-items: center; max-width: 600px; margin: 0 auto; }
+  .step { display: flex; align-items: center; gap: 8px; flex: 1; }
+  .step-circle { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; transition: all 0.3s; }
+  .step-circle.done { background: var(--green); color: #fff; }
+  .step-circle.active { background: var(--navy); color: #fff; box-shadow: 0 0 0 4px var(--navy-light); }
+  .step-circle.pending { background: var(--gray-200); color: var(--gray-500); }
+  .step-text { font-size: 12px; font-weight: 500; color: var(--gray-500); transition: color 0.2s; }
+  .step-text.active { color: var(--navy); }
+  .step-connector { flex: 1; height: 2px; background: var(--gray-200); margin: 0 6px; transition: background 0.3s; }
+  .step-connector.done { background: var(--green); }
+
+  /* Panel */
+  .panel { display: none; padding: 2rem; animation: slideIn 0.25s ease; }
+  .panel.active { display: block; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .panel-title { font-size: 14px; color: var(--gray-500); font-weight: 500; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* Services */
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media(max-width:620px){.services-grid{grid-template-columns:1fr 1fr;}}
+  .service-card { border: 1.5px solid var(--gray-200); border-radius: var(--radius); padding: 1rem; cursor: pointer; transition: all 0.15s; background: #fff; }
+  .service-card:hover { border-color: var(--blue); background: var(--blue-light); transform: translateY(-1px); }
+  .service-card.selected { border-color: var(--navy); background: var(--navy-light); box-shadow: 0 0 0 3px rgba(26,58,107,0.12); }
+  .svc-icon { font-size: 22px; margin-bottom: 8px; display: block; }
+  .svc-name { font-size: 13px; font-weight: 600; color: var(--gray-900); margin-bottom: 3px; }
+  .svc-desc { font-size: 11px; color: var(--gray-500); line-height: 1.4; }
+  .svc-time { font-size: 11px; color: var(--blue); font-weight: 600; margin-top: 6px; }
+
+  /* Calendar */
+  .cal-section { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media(max-width:580px){.cal-section{grid-template-columns:1fr;}}
+  .cal-card, .slots-card { border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 1.25rem; }
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .cal-month { font-size: 15px; font-weight: 600; }
+  .cal-nav-btn { width: 30px; height: 30px; border: 1px solid var(--gray-200); background: #fff; border-radius: 8px; cursor: pointer; font-size: 15px; color: var(--gray-500); display: flex; align-items: center; justify-content: center; transition: all 0.1s; }
+  .cal-nav-btn:hover { background: var(--gray-100); border-color: var(--gray-300); }
+  .cal-weekdays { display: grid; grid-template-columns: repeat(7,1fr); margin-bottom: 4px; }
+  .cal-weekday { font-size: 10px; text-align: center; color: var(--gray-400); font-weight: 600; text-transform: uppercase; padding: 4px 0; }
+  .cal-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+  .cal-day { aspect-ratio: 1; border: none; background: none; border-radius: 8px; font-size: 12px; cursor: pointer; color: var(--gray-700); position: relative; transition: all 0.1s; }
+  .cal-day:hover:not(.cal-disabled):not(.cal-empty) { background: var(--gray-100); }
+  .cal-day.cal-available::after { content:''; width:4px; height:4px; background: var(--green); border-radius: 50%; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); }
+  .cal-day.cal-selected { background: var(--navy) !important; color: #fff !important; font-weight: 600; }
+  .cal-day.cal-today { border: 2px solid var(--blue); }
+  .cal-day.cal-disabled, .cal-day.cal-weekend { color: var(--gray-300); cursor: default; }
+  .cal-legend { display: flex; gap: 12px; margin-top: 10px; }
+  .leg { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--gray-500); }
+  .leg-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .slots-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 1rem; color: var(--gray-700); }
+  .slots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .time-slot { padding: 9px; border: 1px solid var(--gray-200); border-radius: 8px; font-size: 12px; font-weight: 500; text-align: center; cursor: pointer; transition: all 0.1s; background: #fff; color: var(--gray-700); }
+  .time-slot:hover:not(.taken) { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
+  .time-slot.selected { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .time-slot.taken { background: var(--gray-100); color: var(--gray-300); cursor: default; text-decoration: line-through; font-size: 11px; }
+  .no-date-msg { color: var(--gray-400); font-size: 13px; text-align: center; padding: 2rem 0; }
+
+  /* Form */
+  .info-banner { background: var(--blue-light); border: 1px solid #BFDBFE; border-radius: 10px; padding: 12px 16px; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 1.5rem; }
+  .info-banner p { font-size: 13px; color: #1E40AF; line-height: 1.5; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media(max-width:580px){.form-grid{grid-template-columns:1fr;}}
+  .fgroup { display: flex; flex-direction: column; gap: 5px; }
+  .fgroup.full { grid-column: 1/-1; }
+  .fgroup label { font-size: 12px; font-weight: 600; color: var(--gray-700); }
+  .req { color: var(--red); }
+  .fgroup input, .fgroup select, .fgroup textarea { padding: 9px 12px; border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--gray-900); transition: border-color 0.15s, box-shadow 0.15s; width: 100%; background: #fff; }
+  .fgroup input:focus, .fgroup select:focus, .fgroup textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+  .fgroup textarea { resize: vertical; min-height: 72px; }
+
+  /* Summary */
+  .sum-card { border: 1px solid var(--gray-200); border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem; }
+  .sum-head { background: var(--navy); color: #fff; padding: 14px 18px; font-size: 14px; font-weight: 600; }
+  .sum-rows { padding: 0 18px; }
+  .sum-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--gray-100); font-size: 13px; }
+  .sum-row:last-child { border-bottom: none; }
+  .sum-label { color: var(--gray-500); }
+  .sum-val { font-weight: 500; color: var(--gray-900); text-align: right; max-width: 55%; }
+  .location-box { background: var(--amber-light); border: 1px solid #FCD34D; border-radius: 10px; padding: 14px 16px; display: flex; gap: 12px; margin-bottom: 1rem; }
+  .location-box p { font-size: 13px; color: #92400E; line-height: 1.5; }
+  .location-box strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+
+  /* Actions */
+  .actions { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-top: 1px solid var(--gray-100); background: var(--gray-50); }
+  .btn-back { background: #fff; border: 1.5px solid var(--gray-200); color: var(--gray-700); padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+  .btn-back:hover { border-color: var(--gray-300); background: var(--gray-50); }
+  .btn-next { background: var(--navy); color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+  .btn-next:hover:not(:disabled) { background: var(--navy-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,58,107,0.3); }
+  .btn-next:disabled { background: var(--gray-300); cursor: default; transform: none; box-shadow: none; }
+
+  /* Email modal overlay */
+  .email-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+  .email-overlay.show { display: flex; }
+  .email-modal { background: #fff; border-radius: 16px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.25); animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes popIn { from { opacity:0; transform:scale(0.9) translateY(10px); } to { opacity:1; transform:scale(1) translateY(0); } }
+  .email-chrome { background: #F3F4F6; border-radius: 16px 16px 0 0; padding: 12px 16px; border-bottom: 1px solid #E5E7EB; }
+  .email-chrome-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+  .chrome-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .email-meta { background: #fff; border-radius: 8px; padding: 10px 12px; font-size: 12px; }
+  .email-meta-row { display: flex; gap: 6px; padding: 2px 0; }
+  .email-meta-label { color: var(--gray-400); font-weight: 600; min-width: 28px; }
+  .email-meta-val { color: var(--gray-700); }
+  .email-body { padding: 0; }
+  .email-header-band { background: var(--navy); padding: 2rem; text-align: center; }
+  .email-header-band img { width: 44px; height: 44px; }
+  .email-header-band h2 { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; margin-top: 12px; }
+  .email-header-band p { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+  .email-content { padding: 1.5rem 2rem; }
+  .email-greeting { font-size: 15px; color: var(--gray-700); margin-bottom: 1rem; line-height: 1.6; }
+  .email-cita-box { background: var(--navy-light); border: 2px solid var(--navy); border-radius: 12px; padding: 1.25rem; margin: 1.25rem 0; }
+  .email-cita-box h3 { font-size: 13px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .email-cita-row { display: flex; gap: 8px; align-items: flex-start; padding: 5px 0; font-size: 13px; }
+  .email-cita-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .email-cita-label { color: var(--gray-500); min-width: 70px; font-size: 12px; }
+  .email-cita-val { color: var(--gray-900); font-weight: 600; }
+  .folio-big { background: var(--navy); color: #fff; border-radius: 8px; padding: 10px 16px; text-align: center; margin: 1rem 0; font-size: 18px; font-weight: 700; letter-spacing: 2px; }
+  .folio-big span { display: block; font-size: 10px; font-weight: 400; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .qr-placeholder { width: 100px; height: 100px; border: 2px dashed var(--gray-300); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 1rem auto; font-size: 10px; color: var(--gray-400); text-align: center; }
+  .docs-list { background: var(--amber-light); border-radius: 10px; padding: 1rem 1.25rem; margin: 1rem 0; }
+  .docs-list h4 { font-size: 13px; font-weight: 700; color: #92400E; margin-bottom: 8px; }
+  .docs-list li { font-size: 13px; color: #78350F; margin-left: 1rem; padding: 2px 0; }
+  .email-footer { background: var(--gray-50); padding: 1.25rem 2rem; border-top: 1px solid var(--gray-200); text-align: center; }
+  .email-footer p { font-size: 11px; color: var(--gray-400); line-height: 1.6; }
+  .email-close-btn { display: block; background: var(--navy); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; margin: 1rem auto 0; transition: all 0.15s; }
+  .email-close-btn:hover { background: var(--navy-dark); }
+
+  /* Confirmation screen */
+  .confirm-screen { padding: 3rem 2rem; text-align: center; }
+  .check-anim { width: 72px; height: 72px; background: var(--green-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes pop { from{transform:scale(0);}to{transform:scale(1);} }
+  .check-anim svg { width: 36px; height: 36px; stroke: var(--green); fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .confirm-screen h2 { font-family: 'DM Serif Display', serif; font-size: 1.8rem; margin-bottom: 8px; }
+  .confirm-screen > p { font-size: 15px; color: var(--gray-500); max-width: 380px; margin: 0 auto 1.5rem; line-height: 1.6; }
+  .folio-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: 8px; padding: 10px 18px; font-size: 15px; font-weight: 700; color: var(--navy); letter-spacing: 1px; margin-bottom: 1.5rem; }
+  .confirm-detail-card { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 1rem 1.25rem; max-width: 400px; margin: 0 auto 1.5rem; text-align: left; }
+  .email-sent-notice { background: var(--green-light); border: 1px solid #A7F3D0; border-radius: 10px; padding: 12px 16px; display: flex; gap: 10px; align-items: center; max-width: 400px; margin: 0 auto 1.5rem; }
+  .email-sent-notice p { font-size: 13px; color: #065F46; }
+  .btn-email-preview { background: var(--blue-light); color: var(--blue); border: 1.5px solid #BFDBFE; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; margin-bottom: 12px; display: block; width: fit-content; margin: 0 auto 12px; }
+  .btn-email-preview:hover { background: #BFDBFE; }
+  .btn-new { background: var(--navy); color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+  .btn-new:hover { background: var(--navy-dark); }
+  .btn-group { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="#" class="site-logo">
+      <div class="site-logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+      </div>
+      <div class="site-logo-text">Registro Civil <span>/ Sistema de Citas</span></div>
+    </a>
+    <nav class="header-nav">
+      <a href="#">Inicio</a>
+      <a href="#">Trámites</a>
+      <a href="#">Ubicaciones</a>
+      <a href="#">Ayuda</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Agenda tu cita en línea</h1>
+  <p>Selecciona tu trámite, elige fecha y hora, y recibe tu comprobante por correo electrónico.</p>
+</div>
+
+<div class="main">
+  <div class="app-card">
+
+    <!-- Step bar -->
+    <div class="step-bar">
+      <div class="steps">
+        <div class="step"><div class="step-circle active" id="s1">1</div><span class="step-text active" id="st1">Servicio</span></div>
+        <div class="step-connector" id="c1"></div>
+        <div class="step"><div class="step-circle pending" id="s2">2</div><span class="step-text" id="st2">Fecha</span></div>
+        <div class="step-connector" id="c2"></div>
+        <div class="step"><div class="step-circle pending" id="s3">3</div><span class="step-text" id="st3">Datos</span></div>
+        <div class="step-connector" id="c3"></div>
+        <div class="step"><div class="step-circle pending" id="s4">4</div><span class="step-text" id="st4">Confirmar</span></div>
+      </div>
+    </div>
+
+    <!-- Panel 1: Servicio -->
+    <div class="panel active" id="p1">
+      <p class="panel-title">Selecciona el trámite</p>
+      <div class="services-grid">
+        <div class="service-card" onclick="selSvc(this,'Acta de Nacimiento','📄','20 min',['Identificación oficial','CURP','Comprobante de domicilio'])">
+          <span class="svc-icon">📄</span>
+          <div class="svc-name">Acta de nacimiento</div>
+          <div class="svc-desc">Registro o copia certificada</div>
+          <div class="svc-time">⏱ 20 min</div>
+        </div>
+        <div class="service-card" onclick="selSvc(this,'Acta de Matrimonio','💍','30 min',['IDs de ambos cónyuges','Actas de nacimiento','2 testigos con ID'])">
+          <span class="svc-icon">💍</span>
+          <div class="svc-name">Acta de matrimonio</div>
+          <div class="svc-desc">Registro civil y copia certificada</div>
+          <div class="svc-time">⏱ 30 min</div>
+        </div>
+        <div class="service-card" onclick="selSvc(this,'Acta de Defunción','📋','25 min',['Certificado médico','ID del declarante','CURP del fallecido'])">
+          <span class="svc-icon">📋</span>
+          <div class="svc-name">Acta de defunción</div>
+          <div class="svc-desc">Registro y tramitación</div>
+          <div class="svc-time">⏱ 25 min</div>
+        </div>
+        <div class="service-card" onclick="selSvc(this,'CURP','🪪','15 min',['Acta de nacimiento','Identificación oficial'])">
+          <span class="svc-icon">🪪</span>
+          <div class="svc-name">CURP</div>
+          <div class="svc-desc">Trámite y corrección de CURP</div>
+          <div class="svc-time">⏱ 15 min</div>
+        </div>
+        <div class="service-card" onclick="selSvc(this,'Reconocimiento de Hijo','👨‍👧','30 min',['IDs de ambos padres','Acta de nacimiento del menor'])">
+          <span class="svc-icon">👨‍👧</span>
+          <div class="svc-name">Reconocimiento de hijo</div>
+          <div class="svc-desc">Registro paterno/materno</div>
+          <div class="svc-time">⏱ 30 min</div>
+        </div>
+        <div class="service-card" onclick="selSvc(this,'Divorcio Administrativo','⚖️','45 min',['IDs de ambos cónyuges','Acta de matrimonio','Convenio firmado'])">
+          <span class="svc-icon">⚖️</span>
+          <div class="svc-name">Divorcio administrativo</div>
+          <div class="svc-desc">Mutuo acuerdo sin hijos menores</div>
+          <div class="svc-time">⏱ 45 min</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 2: Fecha -->
+    <div class="panel" id="p2">
+      <p class="panel-title">Selecciona fecha y hora</p>
+      <div class="cal-section">
+        <div class="cal-card">
+          <div class="cal-header">
+            <button class="cal-nav-btn" onclick="prevMon()">‹</button>
+            <span class="cal-month" id="calMonth"></span>
+            <button class="cal-nav-btn" onclick="nextMon()">›</button>
+          </div>
+          <div class="cal-weekdays"><span class="cal-weekday">L</span><span class="cal-weekday">M</span><span class="cal-weekday">X</span><span class="cal-weekday">J</span><span class="cal-weekday">V</span><span class="cal-weekday">S</span><span class="cal-weekday">D</span></div>
+          <div class="cal-days" id="calDays"></div>
+          <div class="cal-legend">
+            <div class="leg"><div class="leg-dot" style="background:var(--green)"></div><span>Disponible</span></div>
+            <div class="leg"><div class="leg-dot" style="background:var(--navy)"></div><span>Seleccionado</span></div>
+          </div>
+        </div>
+        <div class="slots-card">
+          <h3>Horarios disponibles</h3>
+          <div id="slotsWrap"><div class="no-date-msg">← Selecciona una fecha</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 3: Datos -->
+    <div class="panel" id="p3">
+      <div class="info-banner">
+        <span style="font-size:18px">ℹ️</span>
+        <p>Ingresa tus datos tal como aparecen en tu identificación oficial. El comprobante se enviará al correo que proporciones.</p>
+      </div>
+      <div class="form-grid">
+        <div class="fgroup"><label>Nombre(s) <span class="req">*</span></label><input id="fN" type="text" placeholder="María Fernanda" oninput="chkForm()"></div>
+        <div class="fgroup"><label>Primer apellido <span class="req">*</span></label><input id="fA1" type="text" placeholder="García" oninput="chkForm()"></div>
+        <div class="fgroup"><label>Segundo apellido</label><input id="fA2" type="text" placeholder="Martínez"></div>
+        <div class="fgroup"><label>CURP <span class="req">*</span></label><input id="fC" type="text" placeholder="GAEM900101MDFRRR09" maxlength="18" style="text-transform:uppercase" oninput="chkForm()"></div>
+        <div class="fgroup"><label>Correo electrónico <span class="req">*</span></label><input id="fE" type="email" placeholder="correo@ejemplo.com" oninput="chkForm()"></div>
+        <div class="fgroup"><label>Teléfono celular <span class="req">*</span></label><input id="fT" type="tel" placeholder="55 1234 5678" maxlength="10" oninput="chkForm()"></div>
+        <div class="fgroup full"><label>Comentarios adicionales</label><textarea id="fCom" placeholder="Información adicional para el oficial del registro civil..."></textarea></div>
+      </div>
+    </div>
+
+    <!-- Panel 4: Confirmar -->
+    <div class="panel" id="p4">
+      <div class="sum-card">
+        <div class="sum-head">Resumen de tu cita</div>
+        <div class="sum-rows">
+          <div class="sum-row"><span class="sum-label">Trámite</span><span class="sum-val" id="sv1"></span></div>
+          <div class="sum-row"><span class="sum-label">Fecha</span><span class="sum-val" id="sv2"></span></div>
+          <div class="sum-row"><span class="sum-label">Hora</span><span class="sum-val" id="sv3"></span></div>
+          <div class="sum-row"><span class="sum-label">Nombre completo</span><span class="sum-val" id="sv4"></span></div>
+          <div class="sum-row"><span class="sum-label">CURP</span><span class="sum-val" id="sv5"></span></div>
+          <div class="sum-row"><span class="sum-label">Correo</span><span class="sum-val" id="sv6"></span></div>
+          <div class="sum-row"><span class="sum-label">Teléfono</span><span class="sum-val" id="sv7"></span></div>
+        </div>
+      </div>
+      <div class="location-box">
+        <span style="font-size:22px">🏛️</span>
+        <p><strong>Oficina del Registro Civil — Módulo Central</strong>Av. Juárez 100, Piso 2, Ventanilla B — Presentar identificación oficial vigente y este comprobante.</p>
+      </div>
+    </div>
+
+    <!-- Panel 5: Éxito -->
+    <div class="panel" id="p5">
+      <div class="confirm-screen">
+        <div class="check-anim">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h2>¡Cita registrada!</h2>
+        <p>Tu cita ha sido agendada exitosamente. Recibirás un correo de confirmación con todos los detalles.</p>
+        <div class="folio-badge">🎫 <span id="folioTxt"></span></div>
+        <div class="email-sent-notice">
+          <span style="font-size:20px">📧</span>
+          <p>Hemos enviado el comprobante a <strong id="emailSentTo"></strong></p>
+        </div>
+        <div class="confirm-detail-card">
+          <div class="sum-row"><span class="sum-label">Trámite</span><span class="sum-val" id="cv1"></span></div>
+          <div class="sum-row"><span class="sum-label">Fecha y hora</span><span class="sum-val" id="cv2"></span></div>
+          <div class="sum-row"><span class="sum-label">Nombre</span><span class="sum-val" id="cv3"></span></div>
+          <div class="sum-row"><span class="sum-label">Oficina</span><span class="sum-val">Módulo Central, Ventanilla B</span></div>
+        </div>
+        <div class="btn-group">
+          <button class="btn-email-preview" onclick="showEmail()">📧 Ver correo de confirmación</button>
+          <button class="btn-new" onclick="reset()">Agendar otra cita</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions bar (not for panel 5) -->
+    <div class="actions" id="actBar">
+      <button class="btn-back" id="btnBack" onclick="back()" style="visibility:hidden">← Atrás</button>
+      <button class="btn-next" id="btnNext" disabled onclick="next()">Continuar →</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Email overlay -->
+<div class="email-overlay" id="emailOverlay" onclick="closeEmail(event)">
+  <div class="email-modal">
+    <div class="email-chrome">
+      <div class="email-chrome-bar">
+        <div class="chrome-dot" style="background:#FF5F57"></div>
+        <div class="chrome-dot" style="background:#FFBD2E"></div>
+        <div class="chrome-dot" style="background:#28C840"></div>
+      </div>
+      <div class="email-meta">
+        <div class="email-meta-row"><span class="email-meta-label">De:</span><span class="email-meta-val">noreply@registrocivil.gob.mx</span></div>
+        <div class="email-meta-row"><span class="email-meta-label">Para:</span><span class="email-meta-val" id="emailTo"></span></div>
+        <div class="email-meta-row"><span class="email-meta-label">Asunto:</span><span class="email-meta-val" id="emailSubject"></span></div>
+      </div>
+    </div>
+    <div class="email-body">
+      <div class="email-header-band">
+        <div style="width:50px;height:50px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:24px;">🏛️</div>
+        <h2>Comprobante de Cita</h2>
+        <p>Registro Civil — Sistema de Citas en Línea</p>
+      </div>
+      <div class="email-content">
+        <p class="email-greeting">Estimado/a <strong id="emailNombre"></strong>,<br><br>Tu cita ha sido registrada exitosamente. A continuación encontrarás todos los detalles:</p>
+        <div class="email-cita-box">
+          <h3>📋 Detalles de tu cita</h3>
+          <div class="email-cita-row"><span class="email-cita-icon">📌</span><span class="email-cita-label">Trámite:</span><span class="email-cita-val" id="emSvc"></span></div>
+          <div class="email-cita-row"><span class="email-cita-icon">📅</span><span class="email-cita-label">Fecha:</span><span class="email-cita-val" id="emFecha"></span></div>
+          <div class="email-cita-row"><span class="email-cita-icon">⏰</span><span class="email-cita-label">Hora:</span><span class="email-cita-val" id="emHora"></span></div>
+          <div class="email-cita-row"><span class="email-cita-icon">🏛️</span><span class="email-cita-label">Oficina:</span><span class="email-cita-val">Módulo Central — Av. Juárez 100, Piso 2</span></div>
+          <div class="email-cita-row"><span class="email-cita-icon">🚪</span><span class="email-cita-label">Ventanilla:</span><span class="email-cita-val">B (Planta Alta)</span></div>
+        </div>
+        <div class="folio-big"><span>Número de folio</span><span id="emFolio"></span></div>
+        <div class="qr-placeholder">
+          <div>QR de<br>verificación<br>[FOLIO]</div>
+        </div>
+        <div class="docs-list">
+          <h4>📎 Documentos requeridos para tu trámite:</h4>
+          <ul id="emDocs"></ul>
+        </div>
+        <p style="font-size:13px;color:var(--gray-500);line-height:1.6;margin-top:1rem;">Por favor preséntate <strong>10 minutos antes</strong> de tu cita con todos los documentos requeridos. En caso de no poder asistir, cancela tu cita con al menos 24 horas de anticipación.</p>
+        <button class="email-close-btn" onclick="closeEmailBtn()">Cerrar vista previa</button>
+      </div>
+      <div class="email-footer">
+        <p>Este es un correo automático, no respondas a este mensaje.<br>Registro Civil del Estado — Sistema de Citas en Línea<br>© 2025 Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const state = { step:1, svc:'', svcDocs:[], fecha:null, hora:'', selDay:null, curMon:new Date().getMonth(), curYear:new Date().getFullYear(), folio:'' };
+const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const diasL = ['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
+const takenMap = { 5:['09:00','14:30'], 8:['11:00','15:00'], 12:['09:30','16:00'], 15:['10:30','11:30'], 19:['13:00','14:00'], 22:['09:00','10:00'] };
+const allSlots = ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00'];
+
+function selSvc(el,name,icon,dur,docs){
+  document.querySelectorAll('.service-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.svc=name; state.svcDocs=docs;
+  document.getElementById('btnNext').disabled=false;
+}
+
+function goStep(n){
+  if(n===4) fillSum();
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p'+n).classList.add('active');
+  state.step=n;
+  updateUI();
+}
+
+function updateUI(){
+  const n=state.step;
+  for(let i=1;i<=4;i++){
+    const sc=document.getElementById('s'+i);
+    const st=document.getElementById('st'+i);
+    const cn=document.getElementById('c'+i);
+    sc.className='step-circle '+(i<n?'done':i===n?'active':'pending');
+    sc.textContent=i<n?'✓':i;
+    if(st) st.className='step-text'+(i===n?' active':'');
+    if(cn) cn.className='step-connector'+(i<n?' done':'');
+  }
+  const back=document.getElementById('btnBack');
+  const next=document.getElementById('btnNext');
+  const act=document.getElementById('actBar');
+  act.style.display=n===5?'none':'flex';
+  back.style.visibility=n===1?'hidden':'visible';
+  if(n===1){next.textContent='Continuar →';next.disabled=!state.svc;}
+  if(n===2){next.textContent='Continuar →';next.disabled=!(state.fecha&&state.hora);}
+  if(n===3){next.textContent='Revisar cita →';chkForm();}
+  if(n===4){next.textContent='Confirmar cita ✓';next.disabled=false;}
+}
+
+function next(){
+  if(state.step<4) goStep(state.step+1);
+  else confirmar();
+}
+function back(){
+  if(state.step>1) goStep(state.step-1);
+}
+
+function buildCal(){
+  const m=state.curMon, y=state.curYear;
+  document.getElementById('calMonth').textContent=meses[m].charAt(0).toUpperCase()+meses[m].slice(1)+' '+y;
+  const grid=document.getElementById('calDays');
+  grid.innerHTML='';
+  const first=new Date(y,m,1);
+  let start=first.getDay(); start=start===0?6:start-1;
+  const total=new Date(y,m+1,0).getDate();
+  const today=new Date();
+  for(let i=0;i<start;i++){const d=document.createElement('button');d.className='cal-day cal-empty';grid.appendChild(d);}
+  for(let d=1;d<=total;d++){
+    const btn=document.createElement('button');
+    const date=new Date(y,m,d);
+    const past=date<new Date(today.getFullYear(),today.getMonth(),today.getDate());
+    const we=date.getDay()===0||date.getDay()===6;
+    btn.textContent=d;
+    let cls='cal-day';
+    if(we||past) cls+=' cal-disabled cal-weekend';
+    else cls+=' cal-available';
+    if(state.selDay===d&&state.curMon===m) cls+=' cal-selected';
+    if(date.getDate()===today.getDate()&&date.getMonth()===today.getMonth()&&date.getFullYear()===today.getFullYear()) cls+=' cal-today';
+    btn.className=cls;
+    if(!past&&!we) btn.onclick=()=>selDay(d,date);
+    grid.appendChild(btn);
+  }
+}
+function selDay(d,date){
+  state.selDay=d;state.fecha=date;state.hora='';
+  document.getElementById('btnNext').disabled=true;
+  buildCal();buildSlots(d);
+}
+function buildSlots(d){
+  const taken=takenMap[d]||[];
+  const wrap=document.getElementById('slotsWrap');
+  wrap.innerHTML='<div class="slots-grid">'+allSlots.map(s=>{
+    const t=taken.includes(s);
+    return `<button class="time-slot${t?' taken':''}"${t?' disabled':''}>${s}${t?'<br><span style="font-size:10px">Ocupado</span>':''}</button>`;
+  }).join('')+'</div>';
+  wrap.querySelectorAll('.time-slot:not(.taken)').forEach(b=>{
+    b.onclick=()=>{state.hora=b.textContent.trim();document.querySelectorAll('.time-slot').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');document.getElementById('btnNext').disabled=false;};
+  });
+}
+function prevMon(){if(state.curMon===0){state.curMon=11;state.curYear--;}else state.curMon--;state.selDay=null;state.fecha=null;state.hora='';document.getElementById('btnNext').disabled=true;document.getElementById('slotsWrap').innerHTML='<div class="no-date-msg">← Selecciona una fecha</div>';buildCal();}
+function nextMon(){if(state.curMon===11){state.curMon=0;state.curYear++;}else state.curMon++;state.selDay=null;state.fecha=null;state.hora='';document.getElementById('btnNext').disabled=true;document.getElementById('slotsWrap').innerHTML='<div class="no-date-msg">← Selecciona una fecha</div>';buildCal();}
+
+function chkForm(){
+  const ok=document.getElementById('fN').value.trim()&&document.getElementById('fA1').value.trim()&&document.getElementById('fC').value.trim().length>=18&&document.getElementById('fE').value.includes('@')&&document.getElementById('fT').value.trim().length>=10;
+  document.getElementById('btnNext').disabled=!ok;
+}
+
+function nombre(){return document.getElementById('fN').value.trim()+' '+document.getElementById('fA1').value.trim()+(document.getElementById('fA2').value.trim()?' '+document.getElementById('fA2').value.trim():'');}
+function fechaStr(){if(!state.fecha)return'—';const f=state.fecha;const dow=f.getDay()===0?6:f.getDay()-1;return diasL[dow]+', '+f.getDate()+' de '+meses[f.getMonth()]+' de '+f.getFullYear();}
+
+function fillSum(){
+  document.getElementById('sv1').textContent=state.svc;
+  document.getElementById('sv2').textContent=fechaStr();
+  document.getElementById('sv3').textContent=state.hora;
+  document.getElementById('sv4').textContent=nombre();
+  document.getElementById('sv5').textContent=document.getElementById('fC').value.toUpperCase();
+  document.getElementById('sv6').textContent=document.getElementById('fE').value;
+  document.getElementById('sv7').textContent=document.getElementById('fT').value;
+}
+
+function confirmar(){
+  state.folio='RC-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*900000+100000));
+  document.getElementById('folioTxt').textContent=state.folio;
+  document.getElementById('emailSentTo').textContent=document.getElementById('fE').value;
+  document.getElementById('cv1').textContent=state.svc;
+  document.getElementById('cv2').textContent=fechaStr()+' — '+state.hora;
+  document.getElementById('cv3').textContent=nombre();
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p5').classList.add('active');
+  document.getElementById('actBar').style.display='none';
+  state.step=5;
+}
+
+function showEmail(){
+  document.getElementById('emailTo').textContent=document.getElementById('fE').value;
+  document.getElementById('emailSubject').textContent='Comprobante de cita — '+state.svc+' | '+state.folio;
+  document.getElementById('emailNombre').textContent=nombre();
+  document.getElementById('emSvc').textContent=state.svc;
+  document.getElementById('emFecha').textContent=fechaStr();
+  document.getElementById('emHora').textContent=state.hora+'  hrs.';
+  document.getElementById('emFolio').textContent=state.folio;
+  document.getElementById('emDocs').innerHTML=state.svcDocs.map(d=>`<li>${d}</li>`).join('');
+  document.getElementById('emailOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeEmail(e){if(e.target===document.getElementById('emailOverlay')){closeEmailBtn();}}
+function closeEmailBtn(){document.getElementById('emailOverlay').classList.remove('show');document.body.style.overflow='';}
+
+function reset(){
+  state.step=1;state.svc='';state.fecha=null;state.hora='';state.selDay=null;
+  document.querySelectorAll('.service-card').forEach(c=>c.classList.remove('selected'));
+  ['fN','fA1','fA2','fC','fE','fT','fCom'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('actBar').style.display='flex';
+  goStep(1);
+  buildCal();
+}
+
+buildCal();
+updateUI();
+</script>
+</body>
+</html>
